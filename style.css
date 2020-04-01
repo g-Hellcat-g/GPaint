@@ -1,0 +1,26 @@
+body {
+   margin: 0;
+   background: rgb(129, 129, 129);
+}
+
+canvas {
+    margin-right: 53px;
+    background: white;
+    display: block;
+}
+
+.divRange {
+   width: 100%;
+}
+
+#sizeLineWidth {
+    width: 99%;
+    height: 20px; 
+}
+
+#btnC {
+    position: fixed;
+    right: 1px;
+    top: 0;
+    width: 10px;
+}
