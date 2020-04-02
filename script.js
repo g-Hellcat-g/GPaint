@@ -13,7 +13,7 @@ let canv = document.getElementById('canvas'),
    
 
 
-    canv.width  = window.innerWidth-78;
+    canv.width  = window.innerWidth*0.94;
     canv.height = window.innerHeight-50;
 
    
