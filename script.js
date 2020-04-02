@@ -3,7 +3,8 @@ let canv = document.getElementById('canvas'),
     isMouseDown = false,
     sizeLineWidth,
     optionColor,
-    colorP;
+    colorP,
+    coords = [];
     
     function changeSize () {
      sizeLineWidth = parseInt(document.getElementById('sizeLineWidth').value);
@@ -12,7 +13,7 @@ let canv = document.getElementById('canvas'),
    
 
 
-    canv.width  = window.innerWidth-53;
+    canv.width  = window.innerWidth-78;
     canv.height = window.innerHeight-50;
 
    
@@ -24,12 +25,48 @@ let canv = document.getElementById('canvas'),
    canv.addEventListener('mouseup', function() {
        isMouseDown = false;
        ctx.beginPath();
-   })
+       coords.push('mouseup');
+   });
+
+
+   function save () {
+       localStorage.setItem('coords', JSON.stringify(coords));
+   }
+
 
    function clearCanv () {
     ctx.clearRect(0, 0, canv.width, canv.height );
    }
 
+   function replay() {
+       let timer = setInterval(function() {
+           if ( !coords.length ) {
+               clearInterval(timer);
+               ctx.beginPath();
+               return;
+           }
+
+           let crd = coords.shift(),
+                 e = {
+                     clientX: crd["0"],
+                     clientY: crd["1"]
+                 };
+
+                 pickColor();
+                 ctx.lineWidth = sizeLineWidth;
+             
+                 ctx.lineTo(e.clientX, e.clientY);
+                 ctx.stroke();   
+                 
+                 ctx.beginPath();
+                 ctx.arc(e.clientX, e.clientY, sizeLineWidth/2, 0, Math.PI * 2);
+                 ctx.fill();
+                 
+                 ctx.beginPath();
+                 ctx.moveTo(e.clientX, e.clientY);
+       }, 30);
+   }
+ 
    function pickColor () {
        colorP = document.getElementById('selectColor').selectedIndex;
        optionColor = document.getElementById('selectColor').options;
@@ -40,8 +77,9 @@ let canv = document.getElementById('canvas'),
    
    canv.addEventListener('mousemove',function(e) {
        if(isMouseDown) {
-           pickColor();
-        ctx.lineWidth = sizeLineWidth;
+           coords.push([e.clientX, e.clientY]);
+            pickColor();
+            ctx.lineWidth = sizeLineWidth;
         
             ctx.lineTo(e.clientX, e.clientY);
             ctx.stroke();   
@@ -53,7 +91,32 @@ let canv = document.getElementById('canvas'),
             ctx.beginPath();
             ctx.moveTo(e.clientX, e.clientY);
        }
-   })
+   });
+
+   document.addEventListener('keydown', function(e) {
+    if ( e.keyCode == 83 ) {
+        //save
+        save();
+        console.log('Saved');
+    }
+
+    if ( e.keyCode == 82) {
+        //replay
+        console.log('Replaying ...');
+        
+        coords = JSON.parse(localStorage.getItem('coords'));
+
+        clearCanv();
+
+        replay();
+    }
+
+    if ( e.keyCode == 67) {
+        //clears
+        clearCanv();
+        console.log('Cleared');
+    }
+});
     
 
 
