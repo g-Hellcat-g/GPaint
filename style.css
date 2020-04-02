@@ -4,7 +4,7 @@ body {
 }
 
 canvas {
-    margin-right: 53px;
+    margin-right: 78px;
     background: white;
     display: block;
 }
@@ -22,12 +22,12 @@ canvas {
     position: fixed;
     right: 0;
     top: 0;
-    width: 10px;
+    width: 6%;
 }
 
 #selectColor {
     position: fixed;
     right: 0;
     top: 30px;
-    width: 30px;
+    width: 6%;
 }
