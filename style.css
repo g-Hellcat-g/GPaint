@@ -18,9 +18,16 @@ canvas {
     height: 20px; 
 }
 
-#btnC {
+#btnC{
     position: fixed;
-    right: 1px;
+    right: 0;
     top: 0;
     width: 10px;
+}
+
+#selectColor {
+    position: fixed;
+    right: 0;
+    top: 30px;
+    width: 30px;
 }
