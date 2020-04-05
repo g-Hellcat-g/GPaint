@@ -4,14 +4,22 @@ let canv = document.getElementById('canvas'),
     sizeLineWidth,
     optionColor,
     colorP,
-    coords = [];
+    coords = [],
+    isSquare = false;
     
     function changeSize () {
      sizeLineWidth = parseInt(document.getElementById('sizeLineWidth').value);
     }
 
-   
-
+    function pickBrush () {
+        let brushSelect = document.getElementById('selectBrush').selectedIndex;
+        let brush = document.getElementById('selectBrush').options;
+        if (brush[brushSelect].text === 'Square')　{
+            isSquare = true;
+        } else {
+            isSquare = false;
+        }
+    }
 
     canv.width  = window.innerWidth*0.94;
     canv.height = window.innerHeight-50;
@@ -53,17 +61,23 @@ let canv = document.getElementById('canvas'),
                  };
 
                  pickColor();
-                 ctx.lineWidth = sizeLineWidth;
-             
-                 ctx.lineTo(e.clientX, e.clientY);
-                 ctx.stroke();   
-                 
-                 ctx.beginPath();
-                 ctx.arc(e.clientX, e.clientY, sizeLineWidth/2, 0, Math.PI * 2);
-                 ctx.fill();
-                 
-                 ctx.beginPath();
-                 ctx.moveTo(e.clientX, e.clientY);
+            ctx.lineWidth = sizeLineWidth;
+        
+            ctx.lineTo(e.clientX, e.clientY);
+            ctx.stroke();   
+            
+            if (isSquare) {
+            ctx.beginPath();
+            ctx.fillRect(e.clientX, e.clientY, sizeLineWidth/2, sizeLineWidth/2);
+            ctx.fill();
+            } else if(!isSquare){
+            ctx.beginPath();
+            ctx.arc(e.clientX, e.clientY, sizeLineWidth/2, 0, Math.PI * 2);
+            ctx.fill();
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(e.clientX, e.clientY);
        }, 30);
    }
  
@@ -77,20 +91,45 @@ let canv = document.getElementById('canvas'),
    
    canv.addEventListener('mousemove',function(e) {
        if(isMouseDown) {
-           coords.push([e.clientX, e.clientY]);
+            coords.push([e.clientX, e.clientY]);
             pickColor();
-            ctx.lineWidth = sizeLineWidth;
-        
-            ctx.lineTo(e.clientX, e.clientY);
-            ctx.stroke();   
             
+        
+              
+            
+            if (isSquare) {
+                ctx.lineWidth = sizeLineWidth;
+            ctx.lineTo(e.clientX,e.clientY);
+            ctx.stroke();
+
             ctx.beginPath();
-            ctx.arc(e.clientX, e.clientY, sizeLineWidth/2, 0, Math.PI * 2);
+            ctx.fillRect(e.clientX-(sizeLineWidth/2), e.clientY-(sizeLineWidth/2), sizeLineWidth, sizeLineWidth);
             ctx.fill();
             
             ctx.beginPath();
             ctx.moveTo(e.clientX, e.clientY);
-       }
+            　　 } else if (!isSquare){
+                ctx.lineWidth = sizeLineWidth;
+            ctx.lineTo(e.clientX, e.clientY);
+            ctx.stroke()
+            ctx.beginPath();
+            ctx.arc(e.clientX, e.clientY, sizeLineWidth/2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX, e.clientY);
+            }
+       } /*else  {
+           if (isSquare) {
+            ctx.beginPath();
+            ctx.strokeRect(e.clientX-(sizeLineWidth/2), e.clientY-(sizeLineWidth/2), sizeLineWidth, sizeLineWidth);
+            ctx.stroke();
+
+           } else {
+            ctx.beginPath();
+            ctx.arc(e.clientX, e.clientY, sizeLineWidth/2, 0, Math.PI * 2);
+            ctx.stroke();
+           }
+       }*/
    });
 
    document.addEventListener('keydown', function(e) {
