@@ -31,3 +31,10 @@ canvas {
     top: 30px;
     width: 6%;
 }
+
+#selectBrush {
+    position: fixed;
+    right: 0;
+    top: 62px;
+    width: 6%;
+}
