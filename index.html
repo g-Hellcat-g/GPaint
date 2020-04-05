@@ -25,10 +25,14 @@
                 <option value="">navy</option>
                 <option value="">white</option>
             </select>
+            <select id="selectBrush" onchange="pickBrush()">
+                <option value="">Circle</option>
+                <option value="">Square</option>
+            </select>
         </div>
     </div>
     <div class="divRange">
-        <input type="range" min="1" max="100" step="1" id="sizeLineWidth" onchange="changeSize()">
+        <input type="range" min="1" max="200" step="1" id="sizeLineWidth" onchange="changeSize()">
     </div>
     <script src="script.js"></script>
 </body>
